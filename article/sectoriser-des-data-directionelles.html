@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>sectoriser des data directionelles - pacdev-blog</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">pacdev-blog</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">sectoriser des data directionelles</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1697637496996"
+                  >2023-10-18 15:58</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1698400710336"
+                  >2023-10-27 11:58</time
+                ></span
+              >
+            </div>
+            
+            <div>
+              Keywords: 
+              <span class="keyword">snippet</span>
+              
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><p>Pour sectoriser, on peut facilement utiliser les groupements par bins mais lorsqu'on a des data directionnelles et qu'on veut centrer le premier secteur en 0, c'est un peu plus compliqué.</p>
+<div><pre class="hljs"><code><span class="hljs-keyword">def</span> <span class="hljs-title function_">find_sector</span>(<span class="hljs-params">direction</span>):
+    
+    other_sectors = [(<span class="hljs-number">15</span> + i*<span class="hljs-number">30</span>, <span class="hljs-number">45</span> + i*<span class="hljs-number">30</span>, <span class="hljs-number">30</span> + <span class="hljs-number">30</span>*i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">11</span>)]
+    
+    <span class="hljs-keyword">if</span> direction &gt; <span class="hljs-number">345</span> <span class="hljs-keyword">or</span> direction &lt;= <span class="hljs-number">15</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">for</span> i, sector <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(other_sectors):
+            <span class="hljs-keyword">if</span> direction &gt; sector[<span class="hljs-number">0</span>] <span class="hljs-keyword">and</span> direction &lt;= sector[<span class="hljs-number">1</span>]:
+                <span class="hljs-keyword">return</span> sector[<span class="hljs-number">2</span>]</code></pre></div>
+</div>
+      </article>
+    </div>
+  </body>
+</html>

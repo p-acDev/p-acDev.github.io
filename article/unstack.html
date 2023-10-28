@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>unstack - pacdev-blog</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">pacdev-blog</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">unstack</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1698400440000"
+                  >2023-10-27 11:54</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1698529080000"
+                  >2023-10-28 23:38</time
+                ></span
+              >
+            </div>
+            
+            <div>
+              Keywords: 
+              <span class="keyword">snippet</span>
+              
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><p>Il s'agit de dépiler un tableau qui est en 2 D vers un tableau en 1 D.</p>
+<div><pre class="hljs"><code><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+df = pd.read_excel(<span class="hljs-string">"excel_file.xlsx"</span>,
+                   sheet_name=<span class="hljs-string">"sheetname"</span>,
+                   usecols=<span class="hljs-string">"C:P"</span>,
+                   skiprows=<span class="hljs-number">4</span>,
+                   nrows=<span class="hljs-number">35</span>)
+
+<span class="hljs-comment"># adjust accordingly</span>
+<span class="hljs-comment"># column header</span>
+df.columns = np.arange(<span class="hljs-number">1</span>, <span class="hljs-number">15</span>, <span class="hljs-number">1</span>)
+<span class="hljs-comment"># line header</span>
+df.index = <span class="hljs-built_in">list</span>(np.arange(<span class="hljs-number">0.25</span>, <span class="hljs-number">9</span>, <span class="hljs-number">0.25</span>))[::-<span class="hljs-number">1</span>]
+
+<span class="hljs-comment"># do the unstacking</span>
+df_unstack = df.unstack().reset_index()
+
+<span class="hljs-comment"># lines are the data that are in the line header of the 2 D table</span>
+<span class="hljs-comment"># columns are the data that are in the column header of the 2 D</span>
+<span class="hljs-comment"># var are the value of the data in each cell</span>
+df_unstack.columns = [<span class="hljs-string">"lines"</span>, <span class="hljs-string">"column"</span>, <span class="hljs-string">"var"</span>]</code></pre></div>
+</div>
+      </article>
+    </div>
+  </body>
+</html>

@@ -1,11 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title></title>
         <link>undefined</link>
         <description>undefined</description>
-        <lastBuildDate>Sat, 28 Oct 2023 22:04:00 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 28 Oct 2023 22:11:20 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Joplin Pages Publisher</generator>
+        <item>
+            <title><![CDATA[unstack]]></title>
+            <guid>96ae750a33e84edd83da286c497631c1</guid>
+            <pubDate>Fri, 27 Oct 2023 09:54:00 GMT</pubDate>
+            <content:encoded><![CDATA[<p>Il s'agit de dépiler un tableau qui est en 2 D vers un tableau en 1 D.</p>
+<div><pre class="hljs"><code><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+df = pd.read_excel(<span class="hljs-string">"excel_file.xlsx"</span>,
+                   sheet_name=<span class="hljs-string">"sheetname"</span>,
+                   usecols=<span class="hljs-string">"C:P"</span>,
+                   skiprows=<span class="hljs-number">4</span>,
+                   nrows=<span class="hljs-number">35</span>)
+
+<span class="hljs-comment"># adjust accordingly</span>
+<span class="hljs-comment"># column header</span>
+df.columns = np.arange(<span class="hljs-number">1</span>, <span class="hljs-number">15</span>, <span class="hljs-number">1</span>)
+<span class="hljs-comment"># line header</span>
+df.index = <span class="hljs-built_in">list</span>(np.arange(<span class="hljs-number">0.25</span>, <span class="hljs-number">9</span>, <span class="hljs-number">0.25</span>))[::-<span class="hljs-number">1</span>]
+
+<span class="hljs-comment"># do the unstacking</span>
+df_unstack = df.unstack().reset_index()
+
+<span class="hljs-comment"># lines are the data that are in the line header of the 2 D table</span>
+<span class="hljs-comment"># columns are the data that are in the column header of the 2 D</span>
+<span class="hljs-comment"># var are the value of the data in each cell</span>
+df_unstack.columns = [<span class="hljs-string">"lines"</span>, <span class="hljs-string">"column"</span>, <span class="hljs-string">"var"</span>]</code></pre></div>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[sectoriser des data directionelles]]></title>
+            <guid>37806e1f453a4a4fbbaec5e7bcd216f8</guid>
+            <pubDate>Wed, 18 Oct 2023 13:58:16 GMT</pubDate>
+            <content:encoded><![CDATA[<p>Pour sectoriser, on peut facilement utiliser les groupements par bins mais lorsqu'on a des data directionnelles et qu'on veut centrer le premier secteur en 0, c'est un peu plus compliqué.</p>
+<div><pre class="hljs"><code><span class="hljs-keyword">def</span> <span class="hljs-title function_">find_sector</span>(<span class="hljs-params">direction</span>):
+    
+    other_sectors = [(<span class="hljs-number">15</span> + i*<span class="hljs-number">30</span>, <span class="hljs-number">45</span> + i*<span class="hljs-number">30</span>, <span class="hljs-number">30</span> + <span class="hljs-number">30</span>*i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">11</span>)]
+    
+    <span class="hljs-keyword">if</span> direction &gt; <span class="hljs-number">345</span> <span class="hljs-keyword">or</span> direction &lt;= <span class="hljs-number">15</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">for</span> i, sector <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(other_sectors):
+            <span class="hljs-keyword">if</span> direction &gt; sector[<span class="hljs-number">0</span>] <span class="hljs-keyword">and</span> direction &lt;= sector[<span class="hljs-number">1</span>]:
+                <span class="hljs-keyword">return</span> sector[<span class="hljs-number">2</span>]</code></pre></div>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[lazy loading]]></title>
+            <guid>0824bc809c8645ab9ab25c546a0df7e1</guid>
+            <pubDate>Wed, 18 Oct 2023 11:59:30 GMT</pubDate>
+            <content:encoded><![CDATA[<p>Optimiser l'import d'un fichier lourd en utilisant le stockage en binaire après le premier import.</p>
+<blockquote>
+<p>Aussi un cas pratique d'utilisation de **kwargs. One ne connait pas à l'avance si on a des skiprows, nrows .... etc</p>
+</blockquote>
+<div><pre class="hljs"><code><span class="hljs-keyword">def</span> <span class="hljs-title function_">extract_data</span>(<span class="hljs-params">file_pathname, **kwargs</span>):
+    
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">"file_pathname[:-4].pkl"</span>, <span class="hljs-string">"rb"</span>) <span class="hljs-keyword">as</span> handle:
+            df = pd.read_pickle(handle)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"[+] data read from pickle file"</span>)
+        <span class="hljs-keyword">return</span> df
+    
+    <span class="hljs-keyword">except</span> FileNotFoundError:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"[-] pickle was not found so read from excel and save to pickle"</span>)
+        
+        df = pd.read_excel(file_pathname, **kwargs)
+        df.to_pickle(<span class="hljs-string">"file_pathname[:-4].pkl"</span>)
+    
+        <span class="hljs-keyword">return</span> df</code></pre></div>
+]]></content:encoded>
+        </item>
     </channel>
 </rss>

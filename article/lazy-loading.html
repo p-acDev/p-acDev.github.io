@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>lazy loading - pacdev-blog</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">pacdev-blog</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">lazy loading</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1697630370086"
+                  >2023-10-18 13:59</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1697636639571"
+                  >2023-10-18 15:43</time
+                ></span
+              >
+            </div>
+            
+            <div>
+              Keywords: 
+              <span class="keyword">snippet</span>
+              
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><p>Optimiser l'import d'un fichier lourd en utilisant le stockage en binaire après le premier import.</p>
+<blockquote>
+<p>Aussi un cas pratique d'utilisation de **kwargs. One ne connait pas à l'avance si on a des skiprows, nrows .... etc</p>
+</blockquote>
+<div><pre class="hljs"><code><span class="hljs-keyword">def</span> <span class="hljs-title function_">extract_data</span>(<span class="hljs-params">file_pathname, **kwargs</span>):
+    
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">"file_pathname[:-4].pkl"</span>, <span class="hljs-string">"rb"</span>) <span class="hljs-keyword">as</span> handle:
+            df = pd.read_pickle(handle)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"[+] data read from pickle file"</span>)
+        <span class="hljs-keyword">return</span> df
+    
+    <span class="hljs-keyword">except</span> FileNotFoundError:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"[-] pickle was not found so read from excel and save to pickle"</span>)
+        
+        df = pd.read_excel(file_pathname, **kwargs)
+        df.to_pickle(<span class="hljs-string">"file_pathname[:-4].pkl"</span>)
+    
+        <span class="hljs-keyword">return</span> df</code></pre></div>
+</div>
+      </article>
+    </div>
+  </body>
+</html>
