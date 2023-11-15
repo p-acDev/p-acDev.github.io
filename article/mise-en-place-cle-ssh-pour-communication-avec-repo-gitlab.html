@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>Mise en place clé SSH pour communication avec repo Gitlab - pacdev-blog</title>
+  </head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">pacdev-blog</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">Mise en place clé SSH pour communication avec repo Gitlab</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1700037287688"
+                  >2023-11-15 09:34</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1700042020516"
+                  >2023-11-15 10:53</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><p>Pour communiquer avec un repo Gitlab sans avoir à rensigner son nom d'utilisateur mots de passe ou token, le plus pratique ets de mettre en place une clé ssh.</p>
+<h2 id="création-de-la-paire-de-clé">Création de la paire de clé</h2>
+<p>Sur la machine local surlaquelle on déveoppe le projet faire:</p>
+<p><code>ssh-keygen</code></p>
+<p>cela va créer un paire de clés privé et publique dans le dossier <code>.ssh</code> si on laisse par défaut la destination.</p>
+<p>Il suffit ensuite de copier le contenu de la clé publique qui aura un nom du type <code>id_rsa.pub</code> en faisant par exemple: <code>cat id_rsa.pub</code></p>
+<p>La clé publique va s'afficher et il n'y a plus qu'à la copier.</p>
+<h2 id="dans-le-compte-gitlab">Dans le compte Gitlab</h2>
+<p>Aller sur le profil du compte:<br />
+<img src="/_resources/4023136789d7469ba03a846aaa356d2d.png" /></p>
+<p>Dans Edit profile:<br />
+<img src="/_resources/389934727885458d8e4e8a308c12f7ae.png" /></p>
+<p>Aller dans SSH Keys sur le panneau latéral et ajouter une nouvelle clé.<br />
+Copier le contenu de la commande plus haut <code>cat id_rsa.pub</code> dans text field prévu à cet effet:<br />
+<img src="/_resources/bda238f45d174796b272bc5489286f31.png" /></p>
+<p>Pour le clonnage du repo il ne reste plus qu'à utiliser l'option SSH au lieu du HTTPS et toutes les actions suivantes (pull, push, etc...) s'effectueront sans besoind e mot de passe mais juste avec la clé présente sur la machine locale.</p>
+</div>
+      </article>
+    </div>
+  </body>
+</html>

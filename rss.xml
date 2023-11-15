@@ -4,9 +4,31 @@
         <title></title>
         <link>undefined</link>
         <description>undefined</description>
-        <lastBuildDate>Tue, 14 Nov 2023 17:42:57 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 15 Nov 2023 09:56:25 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Joplin Pages Publisher</generator>
+        <item>
+            <title><![CDATA[Mise en place clé SSH pour communication avec repo Gitlab]]></title>
+            <guid>565031cc84b04d49b4ac4d1120177b65</guid>
+            <pubDate>Wed, 15 Nov 2023 08:34:47 GMT</pubDate>
+            <content:encoded><![CDATA[<p>Pour communiquer avec un repo Gitlab sans avoir à rensigner son nom d'utilisateur mots de passe ou token, le plus pratique ets de mettre en place une clé ssh.</p>
+<h2 id="création-de-la-paire-de-clé">Création de la paire de clé</h2>
+<p>Sur la machine local surlaquelle on déveoppe le projet faire:</p>
+<p><code>ssh-keygen</code></p>
+<p>cela va créer un paire de clés privé et publique dans le dossier <code>.ssh</code> si on laisse par défaut la destination.</p>
+<p>Il suffit ensuite de copier le contenu de la clé publique qui aura un nom du type <code>id_rsa.pub</code> en faisant par exemple: <code>cat id_rsa.pub</code></p>
+<p>La clé publique va s'afficher et il n'y a plus qu'à la copier.</p>
+<h2 id="dans-le-compte-gitlab">Dans le compte Gitlab</h2>
+<p>Aller sur le profil du compte:<br />
+<img src="/_resources/4023136789d7469ba03a846aaa356d2d.png" /></p>
+<p>Dans Edit profile:<br />
+<img src="/_resources/389934727885458d8e4e8a308c12f7ae.png" /></p>
+<p>Aller dans SSH Keys sur le panneau latéral et ajouter une nouvelle clé.<br />
+Copier le contenu de la commande plus haut <code>cat id_rsa.pub</code> dans text field prévu à cet effet:<br />
+<img src="/_resources/bda238f45d174796b272bc5489286f31.png" /></p>
+<p>Pour le clonnage du repo il ne reste plus qu'à utiliser l'option SSH au lieu du HTTPS et toutes les actions suivantes (pull, push, etc...) s'effectueront sans besoind e mot de passe mais juste avec la clé présente sur la machine locale.</p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[unstack]]></title>
             <guid>2a6d6f7149b14947a6ca821d2a6a86b1</guid>
