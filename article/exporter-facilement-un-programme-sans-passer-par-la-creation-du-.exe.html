@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>Exporter facilement un programme sans passer par la création du .exe - pacdev-blog</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">pacdev-blog</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">Exporter facilement un programme sans passer par la création du .exe</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1708017022844"
+                  >2024-02-15 18:10</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1708017532572"
+                  >2024-02-15 18:18</time
+                ></span
+              >
+            </div>
+            
+            <div>
+              Keywords: 
+              <span class="keyword">snippet</span>
+              
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><ol>
+<li>Télécharger une version portable package de python</li>
+<li>Dans ce dossier, y céer un fichier <code>get-pip.py</code> et y coller le contenu disponible <a title="https://bootstrap.pypa.io/get-pip.py" href="https://bootstrap.pypa.io/get-pip.py">à ce lien</a> (sinon contenu ici)</li>
+<li>Decommenter dans <code>pythonxxx._pth</code> cette ligne : <code>import site</code></li>
+<li>Créer l'environnement virtuel:</li>
+</ol>
+<div><pre class="hljs"><code>@<span class="hljs-built_in">echo</span> off
+
+<span class="hljs-built_in">set</span> PYTHON_PATH=.\python-3.12.2-embed-amd64\python.exe
+<span class="hljs-built_in">set</span> VENV_NAME=venv
+
+<span class="hljs-built_in">echo</span> Creation of virtual env...
+call %PYTHON_PATH% -m virtualenv %VENV_NAME%
+
+<span class="hljs-built_in">echo</span> Activation of virtual env...
+call %VENV_NAME%\Scripts\activate
+
+<span class="hljs-built_in">echo</span> Installation of depencies...
+call %VENV_NAME%\Scripts\pip.exe install streamlit
+
+<span class="hljs-built_in">echo</span> venv\Scripts\streamlit.exe run dashboard.py &gt;&gt; %VENV_NAME%\Scripts\activate.bat
+
+<span class="hljs-built_in">echo</span> Virtual env .
+pause</code></pre></div>
+<p>le <code>echo</code> dans le <code>.bat</code> c'est parce que c'est toujours un peu galère de active run env virtuel et d'ensuite l'utiliser.</p>
+<ol start="5">
+<li>Lancer le script:</li>
+</ol>
+<div><pre class="hljs"><code>@<span class="hljs-built_in">echo</span> off
+
+<span class="hljs-built_in">set</span> VENV_NAME=venv
+
+<span class="hljs-keyword">if</span> exist %VENV_NAME% (
+    <span class="hljs-built_in">echo</span> Activation of virtual env...
+    call cmd.exe /k %VENV_NAME%\Scripts\activate.bat
+) <span class="hljs-keyword">else</span> (
+    <span class="hljs-built_in">echo</span> Virtual env does not exist yet. Please create it before with 1_create_env.bat
+)
+
+pause</code></pre></div>
+</div>
+      </article>
+    </div>
+  </body>
+</html>

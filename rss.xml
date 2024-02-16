@@ -4,15 +4,61 @@
         <title></title>
         <link>undefined</link>
         <description>undefined</description>
-        <lastBuildDate>Fri, 16 Feb 2024 10:19:48 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 16 Feb 2024 10:22:52 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Joplin Pages Publisher</generator>
+        <item>
+            <title><![CDATA[Exporter facilement un programme sans passer par la création du .exe]]></title>
+            <guid>d09ac048cb524c00a4e5261b107a28ee</guid>
+            <pubDate>Thu, 15 Feb 2024 17:10:22 GMT</pubDate>
+            <content:encoded><![CDATA[<ol>
+<li>Télécharger une version portable package de python</li>
+<li>Dans ce dossier, y céer un fichier <code>get-pip.py</code> et y coller le contenu disponible <a title="https://bootstrap.pypa.io/get-pip.py" href="https://bootstrap.pypa.io/get-pip.py">à ce lien</a> (sinon contenu ici)</li>
+<li>Decommenter dans <code>pythonxxx._pth</code> cette ligne : <code>import site</code></li>
+<li>Créer l'environnement virtuel:</li>
+</ol>
+<div><pre class="hljs"><code>@<span class="hljs-built_in">echo</span> off
+
+<span class="hljs-built_in">set</span> PYTHON_PATH=.\python-3.12.2-embed-amd64\python.exe
+<span class="hljs-built_in">set</span> VENV_NAME=venv
+
+<span class="hljs-built_in">echo</span> Creation of virtual env...
+call %PYTHON_PATH% -m virtualenv %VENV_NAME%
+
+<span class="hljs-built_in">echo</span> Activation of virtual env...
+call %VENV_NAME%\Scripts\activate
+
+<span class="hljs-built_in">echo</span> Installation of depencies...
+call %VENV_NAME%\Scripts\pip.exe install streamlit
+
+<span class="hljs-built_in">echo</span> venv\Scripts\streamlit.exe run dashboard.py &gt;&gt; %VENV_NAME%\Scripts\activate.bat
+
+<span class="hljs-built_in">echo</span> Virtual env .
+pause</code></pre></div>
+<p>le <code>echo</code> dans le <code>.bat</code> c'est parce que c'est toujours un peu galère de active run env virtuel et d'ensuite l'utiliser.</p>
+<ol start="5">
+<li>Lancer le script:</li>
+</ol>
+<div><pre class="hljs"><code>@<span class="hljs-built_in">echo</span> off
+
+<span class="hljs-built_in">set</span> VENV_NAME=venv
+
+<span class="hljs-keyword">if</span> exist %VENV_NAME% (
+    <span class="hljs-built_in">echo</span> Activation of virtual env...
+    call cmd.exe /k %VENV_NAME%\Scripts\activate.bat
+) <span class="hljs-keyword">else</span> (
+    <span class="hljs-built_in">echo</span> Virtual env does not exist yet. Please create it before with 1_create_env.bat
+)
+
+pause</code></pre></div>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Mise en place clé SSH pour communication avec repo Gitlab]]></title>
             <guid>565031cc84b04d49b4ac4d1120177b65</guid>
             <pubDate>Wed, 15 Nov 2023 08:34:47 GMT</pubDate>
-            <content:encoded><![CDATA[<p>Pour communiquer avec un repo Gitlab sans avoir à rensigner son nom d'utilisateur mots de passe ou token, le plus pratique ets de mettre en place une clé ssh.</p>
-<h2 id="création-de-la-paire-de-clé">Création de la paire de clé</h2>
+            <content:encoded><![CDATA[<p>Pour communiquer avec un repo Gitlab sans avoir à renseigner son nom d'utilisateur, mot de passe ou token, le plus pratique est de mettre en place une paire clés ssh.</p>
+<h2 id="création-de-la-paire-de-clés">Création de la paire de clés</h2>
 <p>Sur la machine local surlaquelle on déveoppe le projet faire:</p>
 <p><code>ssh-keygen</code></p>
 <p>cela va créer un paire de clés privé et publique dans le dossier <code>.ssh</code> si on laisse par défaut la destination.</p>
